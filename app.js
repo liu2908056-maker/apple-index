@@ -489,10 +489,7 @@
     event.preventDefault();
     calculateAndRender(true);
   });
-  $("demo-btn").addEventListener("click", function () {
-    fillDemo();
-    calculateAndRender(true);
-  });
+
   $("clear-btn").addEventListener("click", clearForm);
   $("save-btn").addEventListener("click", saveToday);
   $("copy-btn").addEventListener("click", copyResult);
