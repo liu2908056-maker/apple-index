@@ -6,7 +6,7 @@
   <title>苹果指数 · 每日状态</title>
   <meta name="theme-color" content="#efe6d8" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css?v=applefix3" />
+  <link rel="stylesheet" href="styles.css?v=wheel1" />
 </head>
 <body>
   <div class="page">
@@ -83,7 +83,7 @@
                 <label for="deepMin">深睡 <em>选填</em></label>
                 <span class="unit">分钟</span>
               </div>
-              <input id="deepMin" name="deepMin" type="number" inputmode="numeric" min="0" max="600" step="5" placeholder="手环里的深睡" />
+              <input id="deepMin" name="deepMin" type="number" inputmode="numeric" min="0" max="600" step="5" placeholder="深睡时长" />
               <p class="error" id="err-deepMin" hidden></p>
             </div>
             <div class="field">
@@ -97,10 +97,10 @@
           </div>
           <div class="field">
             <div class="field-top">
-              <label for="sleepScore">手环睡眠评分 <em>选填</em></label>
+              <label for="sleepScore">睡眠评分 <em>选填</em></label>
               <span class="unit">0–100</span>
             </div>
-            <input id="sleepScore" name="sleepScore" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="小米运动健康里的睡眠分数" />
+            <input id="sleepScore" name="sleepScore" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="可参考设备记录的分数" />
             <p class="error" id="err-sleepScore" hidden></p>
           </div>
         </section>
@@ -158,7 +158,7 @@
             <span class="num">04</span>
             <div>
               <h2>日常活动</h2>
-              <p>记录步行、锻炼和站立时间。没有手表，也可以按实际情况填写。</p>
+              <p>记录步行、锻炼和站立时间。没有设备，也可以按实际情况填写。</p>
             </div>
           </header>
           <div class="field">
@@ -200,7 +200,7 @@
               <label for="kcal">活动消耗 <em>选填</em></label>
               <span class="unit">千卡</span>
             </div>
-            <input id="kcal" name="kcal" type="number" inputmode="numeric" min="0" max="5000" step="10" placeholder="手环上的活动卡路里，不含基础代谢" />
+            <input id="kcal" name="kcal" type="number" inputmode="numeric" min="0" max="5000" step="10" placeholder="活动卡路里，不含基础代谢" />
             <p class="error" id="err-kcal" hidden></p>
           </div>
         </section>
@@ -376,7 +376,7 @@
           </tbody>
         </table>
         <p>93 分及以上是 10，87 是 9，80 是 8，73 是 7，65 是 6，56 是 5。再往下每大约 10 分降一颗苹果。指数看苹果，苹果分看同一颗里面的进步。休息日其他项都满分时，最高是 9；力量练进 25–55 分钟，才够到 10。血氧低于 95%，或静息心率低于 45、达到 100，指数最高停在 6。</p>
-        <p>手环如果给了睡眠评分，它占大睡的 38%，其余仍由时长、深睡和清醒次数决定。</p>
+        <p>如果有睡眠评分数据，它占大睡的 38%，其余仍由时长、深睡和清醒次数决定。</p>
       </div>
     </details>
 
@@ -386,7 +386,7 @@
         <p><strong>大水理论</strong>流行的说法是多喝水就会变好，甚至变瘦。有用的部分是很多人确实喝少了。它没有“越多越好”这一条，短时间灌很多白水反而可能出事。所以满分是一个区间，不是一个没有顶的数字。</p>
         <p><strong>大睡理论</strong>把觉放在皮肤、情绪、食欲和恢复的前面。成年人通常 7 到 9 小时就够，固定时间和少醒，往往比硬把时长拉到下午更有用。</p>
         <p><strong>薄肌理论</strong>要的是纤细、有线条，不是练成很大的块。做法通常是力量训练、够用的蛋白质，再加上走路，而不是只做有氧或只节食。正常的力量训练很难把人练成“很壮”。休息日照样算进步，因为肌肉是在恢复里留下来的。</p>
-        <p>页面还参考了一万步、Apple Watch 活力环，以及小米手环能读到的心率、血氧、压力、深睡和活动消耗。这些是日常目标，不是诊断。</p>
+        <p>页面还参考了一万步、常见健康设备可记录的心率、血氧、压力、深睡和活动消耗。这些是日常目标，不是诊断。</p>
       </div>
     </details>
 
@@ -403,6 +403,6 @@
   </div>
 
   <script src="score.js"></script>
-  <script src="app.js?v=applefix3"></script>
+  <script src="app.js?v=wheel1"></script>
 </body>
 </html>
