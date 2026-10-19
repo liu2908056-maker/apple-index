@@ -200,13 +200,13 @@
     window.setTimeout(function () { stage.classList.remove("is-updating"); }, 820);
   }
 
-  function loadApplePhoto(index) {
+  function loadApplePhoto(index, errorApple) {
     var img = $("apple-photo");
     var svg = $("apple-svg");
     var token = ++photoToken;
     animateAppleStage();
-    var base = new URL("images/apple-" + index + ".b64", document.baseURI);
-    img.alt = "苹果指数 " + index + " 对应的苹果图片";
+    var base = new URL(errorApple ? "images/apple-error.b64" : "images/apple-" + index + ".b64", document.baseURI);
+    img.alt = errorApple ? "错误苹果：数据未填完整或存在错误" : "苹果指数 " + index + " 对应的苹果图片";
     img.hidden = true;
     svg.hidden = false;
     img.removeAttribute("src");
@@ -240,7 +240,7 @@
         svg.hidden = false;
       });
   }
-  function renderEmpty(message, detail) {
+  function renderEmpty(message, detail, showErrorApple) {
     $("index-num").textContent = "—";
     $("level-name").textContent = message;
     $("level-line").textContent = detail || "";
@@ -254,6 +254,7 @@
     $("apple-photo").hidden = true;
     $("apple-svg").hidden = false;
     paintApple(null);
+    if (showErrorApple) loadApplePhoto(null, true);
   }
 
   function renderResult(result) {
@@ -385,12 +386,12 @@
   function calculateAndRender(scroll) {
     var input = readInput();
     if (!validate(input)) {
-      renderEmpty("有一项数字出了范围", "按红字改完再计算。");
+      renderEmpty("错误苹果", "有一项数据不合理。请按红字提示修改后重新计算。", true);
       return;
     }
     var result = AppleIndex.calculate(input);
     if (!result.ready) {
-      renderEmpty("还差几项必填", "请补上：" + result.missing.join("、") + "。");
+      renderEmpty("错误苹果", "必填数据还不完整，请补上：" + result.missing.join("、") + "。", true);
       $("dock-text").textContent = "还差 " + result.missing.length + " 项";
       return;
     }
