@@ -211,6 +211,23 @@
     svg.hidden = false;
     img.removeAttribute("src");
 
+    // The error apple is a regular JPG, so load it directly instead of parsing it as base64 text.
+    if (errorApple) {
+      img.onload = function () {
+        if (token !== photoToken) return;
+        img.hidden = false;
+        svg.hidden = true;
+      };
+      img.onerror = function () {
+        if (token !== photoToken) return;
+        img.hidden = true;
+        svg.hidden = false;
+        img.removeAttribute("src");
+      };
+      img.src = base.href;
+      return;
+    }
+
     fetch(base.href, { cache: "force-cache" })
       .then(function (res) {
         if (!res.ok) throw new Error("Apple image unavailable: " + res.status);
