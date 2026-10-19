@@ -224,7 +224,7 @@
         svg.hidden = false;
         img.removeAttribute("src");
       };
-      img.src = base.href;
+      img.src = base.href + "?v=applefix3";
       return;
     }
 
