@@ -258,7 +258,7 @@
       });
   }
   function renderEmpty(message, detail, showErrorApple) {
-    $("index-num").textContent = "—";
+    $("index-num").textContent = "-";
     $("level-name").textContent = message;
     $("level-line").textContent = detail || "";
     $("fine-score").textContent = "";
