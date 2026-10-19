@@ -488,84 +488,8 @@
   }
 
 
-  // Native-feeling scroll wheel for numeric fields.
-  function installWheelPicker() {
-    var activeInput = null;
-    var selectedIndex = 0;
-    var wheelTimer = null;
-    var overlay = document.createElement("div");
-    overlay.className = "wheel-overlay";
-    overlay.hidden = true;
-    overlay.innerHTML = '<div class="wheel-sheet" role="dialog" aria-modal="true" aria-label="选择数值"><div class="wheel-head"><button type="button" class="wheel-cancel">取消</button><strong class="wheel-title">选择数值</strong><button type="button" class="wheel-done">完成</button></div><div class="wheel-window"><div class="wheel-list"></div><div class="wheel-highlight"></div></div></div>';
-    document.body.appendChild(overlay);
-    var list = overlay.querySelector(".wheel-list");
-    var title = overlay.querySelector(".wheel-title");
-    var rowHeight = 44;
-    var values = [];
-    function close() { overlay.hidden = true; activeInput = null; }
-    function choose(index) {
-      selectedIndex = Math.max(0, Math.min(values.length - 1, index));
-      list.scrollTop = selectedIndex * rowHeight;
-      Array.prototype.forEach.call(list.children, function (node, i) {
-        node.classList.toggle("selected", i === selectedIndex);
-      });
-    }
-    function commit() {
-      if (!activeInput || !values.length) { close(); return; }
-      activeInput.value = values[selectedIndex].value;
-      activeInput.dispatchEvent(new Event("input", { bubbles: true }));
-      activeInput.dispatchEvent(new Event("change", { bubbles: true }));
-      close();
-    }
-    overlay.querySelector(".wheel-cancel").addEventListener("click", close);
-    overlay.querySelector(".wheel-done").addEventListener("click", commit);
-    overlay.addEventListener("click", function (e) { if (e.target === overlay) close(); });
-    list.addEventListener("scroll", function () {
-      window.clearTimeout(wheelTimer);
-      wheelTimer = window.setTimeout(function () {
-        choose(Math.round(list.scrollTop / rowHeight));
-      }, 80);
-    }, { passive: true });
-    document.querySelectorAll('#quiz input[type="number"]').forEach(function (input) {
-      input.setAttribute("readonly", "readonly");
-      input.setAttribute("inputmode", "none");
-      input.setAttribute("aria-haspopup", "dialog");
-      input.addEventListener("click", function () {
-        activeInput = input;
-        var min = Number(input.min || 0);
-        var max = Number(input.max || 100);
-        var step = Number(input.step || 1);
-        if (!Number.isFinite(step) || step <= 0) step = 1;
-        var count = Math.floor((max - min) / step) + 1;
-        var stride = count > 1200 ? Math.ceil(count / 1200) : 1;
-        values = [];
-        for (var v = min, guard = 0; v <= max + step * 0.001 && guard < 1201; v += step * stride, guard++) {
-          var rounded = Math.round(v * 1000) / 1000;
-          values.push({ value: String(rounded), label: String(rounded) });
-        }
-        if (values.length && values[values.length - 1].value !== String(max) && (max - min) % (step * stride) === 0) {
-          values.push({ value: String(max), label: String(max) });
-        }
-        list.innerHTML = values.map(function (item) { return '<button type="button" class="wheel-option">' + item.label + '</button>'; }).join("");
-        title.textContent = input.labels && input.labels[0] ? input.labels[0].textContent.replace(/选填/g, "").trim() : "选择数值";
-        var current = input.value === "" ? min : Number(input.value);
-        selectedIndex = values.reduce(function (best, item, i) {
-          return Math.abs(Number(item.value) - current) < Math.abs(Number(values[best].value) - current) ? i : best;
-        }, 0);
-        Array.prototype.forEach.call(list.children, function (node, i) {
-          node.addEventListener("click", function () { choose(i); commit(); });
-        });
-        overlay.hidden = false;
-        list.scrollTop = selectedIndex * rowHeight;
-        choose(selectedIndex);
-      });
-    });
-  }
-
   function syncChips() {
-    installWheelPicker();
-
-  document.querySelectorAll(".chips button").forEach(function (btn) {
+    document.querySelectorAll(".chips button").forEach(function (btn) {
       var id = btn.getAttribute("data-set");
       var pressed = $(id) && $(id).value === btn.getAttribute("data-value");
       btn.setAttribute("aria-pressed", String(pressed));
