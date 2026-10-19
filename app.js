@@ -194,55 +194,42 @@
   function loadApplePhoto(index) {
     var img = $("apple-photo");
     var svg = $("apple-svg");
-    var exts = ["jpg", "jpeg", "png", "webp"];
-    var i = 0;
     var token = ++photoToken;
-    img.alt = "苹果指数 " + index + " 的苹果";
-    function showPhoto() {
-      if (token !== photoToken) return;
-      img.hidden = false;
-      svg.hidden = true;
-    }
-    function tryB64() {
-      fetch("images/apple-" + index + ".b64")
-        .then(function (res) {
-          if (!res.ok) throw new Error("missing");
-          return res.text();
-        })
-        .then(function (text) {
+    var base = new URL("images/apple-" + index + ".b64", document.baseURI);
+    img.alt = "苹果指数 " + index + " 对应的苹果图片";
+    img.hidden = true;
+    svg.hidden = false;
+    img.removeAttribute("src");
+
+    fetch(base.href, { cache: "force-cache" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Apple image unavailable: " + res.status);
+        return res.text();
+      })
+      .then(function (encoded) {
+        if (token !== photoToken) return;
+        var clean = encoded.replace(/^data:image\\/[a-zA-Z0-9.+-]+;base64,/, "").replace(/\\s/g, "");
+        if (!clean || !/^[A-Za-z0-9+/]+={0,2}$/.test(clean)) throw new Error("Invalid encoded image");
+        img.onload = function () {
           if (token !== photoToken) return;
-          img.onload = showPhoto;
-          img.onerror = function () {
-            if (token !== photoToken) return;
-            img.hidden = true;
-            svg.hidden = false;
-          };
-          img.src = "data:image/jpeg;base64," + text.replace(/\s/g, "");
-        })
-        .catch(function () {
+          img.hidden = false;
+          svg.hidden = true;
+        };
+        img.onerror = function () {
           if (token !== photoToken) return;
           img.hidden = true;
-          img.removeAttribute("src");
           svg.hidden = false;
-        });
-    }
-    function tryNext() {
-      if (token !== photoToken) return;
-      if (i >= exts.length) {
-        tryB64();
-        return;
-      }
-      img.onload = showPhoto;
-      img.onerror = function () {
+          img.removeAttribute("src");
+        };
+        img.src = "data:image/jpeg;base64," + clean;
+      })
+      .catch(function () {
         if (token !== photoToken) return;
-        i += 1;
-        tryNext();
-      };
-      img.src = "images/apple-" + index + "." + exts[i];
-    }
-    tryNext();
+        img.hidden = true;
+        img.removeAttribute("src");
+        svg.hidden = false;
+      });
   }
-
   function renderEmpty(message, detail) {
     $("index-num").textContent = "—";
     $("level-name").textContent = message;
