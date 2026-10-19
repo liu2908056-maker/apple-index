@@ -136,3 +136,36 @@ footer p { margin: 0 0 6px; }
 @media (max-width: 620px) { .page { width: min(100% - 24px, 540px); padding: 42px 0 100px; } .hero { margin-bottom: 26px; } .hero h1 { font-size: clamp(40px, 11vw, 54px); } .lede { font-size: 16px; } .layout { gap: 14px; margin-top: 20px; } .stack { gap: 12px; } .card, .result.card { padding: 19px; border-radius: 19px; } .card.slim { padding-bottom: 3px; } .sec-head { margin-bottom: 18px; } .sec-head h2 { font-size: 22px; } .result-hero { grid-template-columns: minmax(108px, 132px) 1fr; gap: 15px; } .index-line { font-size: 58px; } .level-name { font-size: 18px; } .rings { grid-template-columns: 90px 1fr; gap: 12px; margin-top: 18px; padding-top: 18px; } .ring-svg { width: 90px; height: 90px; } .grid-2 { gap: 0 10px; } .history ol { gap: 4px; } }
 @media (max-width: 380px) { .grid-2 { grid-template-columns: 1fr; } .result-hero { grid-template-columns: 104px 1fr; gap: 12px; } .index-line { font-size: 50px; } .apple-stage { border-radius: 20px; } .result-actions { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+
+/* Restrained Apple-like motion; respects reduced-motion preferences. */
+.apple-stage {
+  transform-origin: 50% 58%;
+  animation: apple-idle 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+.apple-stage.is-updating { animation: apple-arrive 760ms cubic-bezier(.2,.8,.2,1) both; }
+.apple-stage.is-updating img, .apple-stage.is-updating svg { animation: apple-shine 760ms ease-out both; }
+@keyframes apple-idle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(-1deg); }
+}
+@keyframes apple-arrive {
+  0% { transform: translateY(12px) scale(.92) rotate(-4deg); opacity: .6; }
+  58% { transform: translateY(-3px) scale(1.025) rotate(1deg); opacity: 1; }
+  78% { transform: translateY(1px) scale(.99) rotate(0deg); }
+  100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes apple-shine {
+  0% { filter: brightness(.92); }
+  45% { filter: brightness(1.08); }
+  100% { filter: brightness(1); }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .apple-stage:hover { animation-play-state: paused; transform: translateY(-3px) scale(1.015); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .apple-stage, .apple-stage.is-updating, .apple-stage.is-updating img, .apple-stage.is-updating svg {
+    animation: none !important; transform: none !important; filter: none !important; will-change: auto;
+  }
+}
