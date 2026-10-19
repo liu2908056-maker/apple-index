@@ -3,17 +3,17 @@
   "use strict";
 
   var LEVELS = [
-    { index: 0, name: "你不配叫苹果", line: "今天先做一件最小的事：喝一杯水，或者去睡觉。" },
-    { index: 1, name: "便秘苹果", line: "已经开始记了。记录本身就是进步。" },
-    { index: 2, name: "肾虚苹果", line: "有一两项在动。把最弱的那一项补一点。" },
-    { index: 3, name: "哭哭苹果", line: "皮上有一点红了。明天同一时间再记一次。" },
-    { index: 4, name: "小粉苹果", line: "过了中线。身体开始认这份日常。" },
-    { index: 5, name: "亲亲苹果", line: "稳的一天。水、觉、肌肉里，至少有两样在线。" },
-    { index: 6, name: "大睡苹果", line: "习惯正在长出来。活力环也开始合拢。" },
-    { index: 7, name: "小红苹果", line: "今天的你，比空白的一天完整得多。" },
-    { index: 8, name: "大粉苹果", line: "水、觉、肌肉和步数接上了。" },
-    { index: 9, name: "大红苹果", line: "很接近满环。差的往往只是一项。" },
-    { index: 10, name: "散发光芒", line: "今天这颗苹果，是你自己长出来的。" }
+    { index: 0, name: "你不配叫苹果", line: "字面意思，你无敌了" },
+    { index: 1, name: "便秘苹果", line: "喝点水动动，疏通疏通吧" },
+    { index: 2, name: "肾虚苹果", line: "多喝点水早点睡吧" },
+    { index: 3, name: "哭哭苹果", line: "委屈巴巴" },
+    { index: 4, name: "小粉苹果", line: "开始有点样子了，加油" },
+    { index: 5, name: "亲亲苹果", line: "开始有气色了，再加加油" },
+    { index: 6, name: "大睡苹果", line: "觉睡到位了" },
+    { index: 7, name: "小红苹果", line: "红扑扑的" },
+    { index: 8, name: "大粉苹果", line: "又大又粉" },
+    { index: 9, name: "大红苹果", line: "苹果代言人" },
+    { index: 10, name: "散发光芒", line: "库克都没你苹果" }
   ];
 
   var INDEX_EDGES = [12, 24, 36, 46, 56, 65, 73, 80, 87, 93];
