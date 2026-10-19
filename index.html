@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>苹果指数测试</title>
+  <meta name="description" content="根据今天的饮水、睡眠、训练、步数和手环数据，计算 0 到 10 的苹果指数。数字越大，生活越健康，也越有进步。" />
+  <meta name="theme-color" content="#efe6d8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <p class="eyebrow">今日生活 · 一颗苹果</p>
+      <h1>苹果指数测试</h1>
+      <p class="lede">把今天喝了多少水、睡了多久、练了没有、走了多少步，收成 0 到 10 的一颗苹果。数字越大，生活越健康，也越有进步。</p>
+      <div class="theory-row" aria-label="参考的理论">
+        <a class="pill" href="#sec-water"><i class="dot water"></i>大水理论</a>
+        <a class="pill" href="#sec-sleep"><i class="dot sleep"></i>大睡理论</a>
+        <a class="pill" href="#sec-muscle"><i class="dot muscle"></i>薄肌理论</a>
+        <a class="pill" href="#sec-rings"><i class="dot move"></i>活力环</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <form id="quiz" class="stack" novalidate>
+        <section class="card slim">
+          <div class="field">
+            <div class="field-top">
+              <label for="weight">体重 <em>选填</em></label>
+              <span class="unit">公斤</span>
+            </div>
+            <input id="weight" name="weight" type="number" inputmode="decimal" min="30" max="200" step="0.1" placeholder="用来换算饮水和蛋白质目标" />
+            <p class="hint" id="targetHint">不填就用通用目标：饮水 1800–2800 毫升，蛋白质 65–130 克。</p>
+          </div>
+        </section>
+
+        <section class="card" id="sec-water">
+          <header class="sec-head">
+            <span class="num">01</span>
+            <div>
+              <h2>大水</h2>
+              <p>喝到目标区间就满分。灌得更多，分数会往下走。</p>
+            </div>
+          </header>
+          <div class="field">
+            <div class="field-top">
+              <label for="waterMl">今天喝了多少水</label>
+              <span class="unit">毫升</span>
+            </div>
+            <input id="waterMl" name="waterMl" type="number" inputmode="decimal" min="0" max="8000" step="50" placeholder="例如 2000" />
+            <p class="hint" id="waterHint">2 升请写成 2000。白水、茶、黑咖啡都算，甜饮料不算在这里。</p>
+            <div class="chips" role="group" aria-label="饮水量快捷填写">
+              <button type="button" data-set="waterMl" data-value="1000">1000</button>
+              <button type="button" data-set="waterMl" data-value="1500">1500</button>
+              <button type="button" data-set="waterMl" data-value="2000">2000</button>
+              <button type="button" data-set="waterMl" data-value="2500">2500</button>
+            </div>
+            <p class="error" id="err-waterMl" hidden></p>
+          </div>
+        </section>
+
+        <section class="card" id="sec-sleep">
+          <header class="sec-head">
+            <span class="num">02</span>
+            <div>
+              <h2>大睡</h2>
+              <p>7.5 到 9 小时是满分。深睡和少醒会再抬一截，睡太久不会更高。</p>
+            </div>
+          </header>
+          <div class="field">
+            <div class="field-top">
+              <label for="sleepHours">睡了多久</label>
+              <span class="unit">小时</span>
+            </div>
+            <input id="sleepHours" name="sleepHours" type="number" inputmode="decimal" min="0" max="16" step="0.5" placeholder="例如 7.5" />
+            <div class="chips" role="group" aria-label="睡眠时长快捷填写">
+              <button type="button" data-set="sleepHours" data-value="6">6</button>
+              <button type="button" data-set="sleepHours" data-value="7">7</button>
+              <button type="button" data-set="sleepHours" data-value="7.5">7.5</button>
+              <button type="button" data-set="sleepHours" data-value="8">8</button>
+              <button type="button" data-set="sleepHours" data-value="9">9</button>
+            </div>
+            <p class="error" id="err-sleepHours" hidden></p>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <div class="field-top">
+                <label for="deepMin">深睡 <em>选填</em></label>
+                <span class="unit">分钟</span>
+              </div>
+              <input id="deepMin" name="deepMin" type="number" inputmode="numeric" min="0" max="600" step="5" placeholder="手环里的深睡" />
+              <p class="error" id="err-deepMin" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="awakenings">清醒次数 <em>选填</em></label>
+                <span class="unit">次</span>
+              </div>
+              <input id="awakenings" name="awakenings" type="number" inputmode="numeric" min="0" max="30" step="1" placeholder="夜间醒来" />
+              <p class="error" id="err-awakenings" hidden></p>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-top">
+              <label for="sleepScore">手环睡眠评分 <em>选填</em></label>
+              <span class="unit">0–100</span>
+            </div>
+            <input id="sleepScore" name="sleepScore" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="小米运动健康里的睡眠分数" />
+            <p class="error" id="err-sleepScore" hidden></p>
+          </div>
+        </section>
+
+        <section class="card" id="sec-muscle">
+          <header class="sec-head">
+            <span class="num">03</span>
+            <div>
+              <h2>薄肌</h2>
+              <p>要线条，不要堆块。一段力量训练加上够用的蛋白质；休息日不罚到零。</p>
+            </div>
+          </header>
+          <div class="field">
+            <span class="field-label" id="mode-label">今天</span>
+            <div class="seg" role="group" aria-labelledby="mode-label">
+              <button type="button" id="mode-train" aria-pressed="false">练了</button>
+              <button type="button" id="mode-rest" aria-pressed="false">休息</button>
+            </div>
+            <p class="error" id="err-mode" hidden></p>
+          </div>
+          <div class="field" id="strength-wrap">
+            <div class="field-top">
+              <label for="strengthMin">力量训练</label>
+              <span class="unit">分钟</span>
+            </div>
+            <input id="strengthMin" name="strengthMin" type="number" inputmode="numeric" min="0" max="300" step="5" placeholder="深蹲、推、拉、核心都算" />
+            <p class="hint">跑步不算在这里，算在下面的中高强度里。满分大约 25–55 分钟。</p>
+            <div class="chips">
+              <button type="button" data-set="strengthMin" data-value="20">20</button>
+              <button type="button" data-set="strengthMin" data-value="30">30</button>
+              <button type="button" data-set="strengthMin" data-value="45">45</button>
+              <button type="button" data-set="strengthMin" data-value="60">60</button>
+            </div>
+            <p class="error" id="err-strengthMin" hidden></p>
+          </div>
+          <div class="field">
+            <div class="field-top">
+              <label for="proteinG">蛋白质</label>
+              <span class="unit">克</span>
+            </div>
+            <input id="proteinG" name="proteinG" type="number" inputmode="decimal" min="0" max="300" step="5" placeholder="今天吃到的总克数" />
+            <p class="hint" id="proteinHint">一只鸡蛋大约 6 克，一杯牛奶大约 8 克，一块掌心肉大约 20 克。</p>
+            <div class="chips">
+              <button type="button" data-set="proteinG" data-value="50">50</button>
+              <button type="button" data-set="proteinG" data-value="80">80</button>
+              <button type="button" data-set="proteinG" data-value="100">100</button>
+              <button type="button" data-set="proteinG" data-value="120">120</button>
+            </div>
+            <p class="error" id="err-proteinG" hidden></p>
+          </div>
+        </section>
+
+        <section class="card" id="sec-rings">
+          <header class="sec-head">
+            <span class="num">04</span>
+            <div>
+              <h2>活力环</h2>
+              <p>对应 Apple Watch 的移动、锻炼、站立。没有手表，就按今天的真实活动估。</p>
+            </div>
+          </header>
+          <div class="field">
+            <div class="field-top">
+              <label for="steps">步数</label>
+              <span class="unit">步</span>
+            </div>
+            <input id="steps" name="steps" type="number" inputmode="numeric" min="0" max="80000" step="100" placeholder="例如 8000" />
+            <div class="chips">
+              <button type="button" data-set="steps" data-value="4000">4000</button>
+              <button type="button" data-set="steps" data-value="8000">8000</button>
+              <button type="button" data-set="steps" data-value="10000">10000</button>
+              <button type="button" data-set="steps" data-value="12000">12000</button>
+            </div>
+            <p class="error" id="err-steps" hidden></p>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <div class="field-top">
+                <label for="exerciseMin">中高强度</label>
+                <span class="unit">分钟</span>
+              </div>
+              <input id="exerciseMin" name="exerciseMin" type="number" inputmode="numeric" min="0" max="300" step="5" placeholder="快走、跑、练" />
+              <p class="hint">30 分钟合上锻炼环。</p>
+              <p class="error" id="err-exerciseMin" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="standHours">站立</label>
+                <span class="unit">小时</span>
+              </div>
+              <input id="standHours" name="standHours" type="number" inputmode="decimal" min="0" max="24" step="1" placeholder="起来活动过的小时" />
+              <p class="hint">12 小时合上站立环。</p>
+              <p class="error" id="err-standHours" hidden></p>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field-top">
+              <label for="kcal">活动消耗 <em>选填</em></label>
+              <span class="unit">千卡</span>
+            </div>
+            <input id="kcal" name="kcal" type="number" inputmode="numeric" min="0" max="5000" step="10" placeholder="手环上的活动卡路里，不含基础代谢" />
+            <p class="error" id="err-kcal" hidden></p>
+          </div>
+        </section>
+
+        <section class="card quiet" id="sec-band">
+          <header class="sec-head">
+            <span class="num">05</span>
+            <div>
+              <h2>手环体征 <em>选填</em></h2>
+              <p>小米运动健康里能抄到的数字。空着不扣分，填了会参与计算。</p>
+            </div>
+          </header>
+          <div class="grid-2">
+            <div class="field">
+              <div class="field-top">
+                <label for="restingHr">静息心率</label>
+                <span class="unit">次/分</span>
+              </div>
+              <input id="restingHr" name="restingHr" type="number" inputmode="numeric" min="30" max="220" step="1" placeholder="例如 62" />
+              <p class="error" id="err-restingHr" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="avgHr">平均心率</label>
+                <span class="unit">次/分</span>
+              </div>
+              <input id="avgHr" name="avgHr" type="number" inputmode="numeric" min="30" max="220" step="1" placeholder="今日平均" />
+              <p class="error" id="err-avgHr" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="spo2">血氧</label>
+                <span class="unit">%</span>
+              </div>
+              <input id="spo2" name="spo2" type="number" inputmode="numeric" min="70" max="100" step="1" placeholder="测了多次填最低值" />
+              <p class="error" id="err-spo2" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="stress">压力</label>
+                <span class="unit">1–100</span>
+              </div>
+              <input id="stress" name="stress" type="number" inputmode="numeric" min="1" max="100" step="1" placeholder="越低越轻松" />
+              <p class="error" id="err-stress" hidden></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card quiet" id="sec-rhythm">
+          <header class="sec-head">
+            <span class="num">06</span>
+            <div>
+              <h2>饮食与日照 <em>选填</em></h2>
+              <p>蔬菜、添加糖、白天日照、睡前屏幕。用来补上水和觉盖不到的日常。</p>
+            </div>
+          </header>
+          <div class="grid-2">
+            <div class="field">
+              <div class="field-top">
+                <label for="veggies">蔬菜</label>
+                <span class="unit">拳头</span>
+              </div>
+              <input id="veggies" name="veggies" type="number" inputmode="decimal" min="0" max="15" step="1" placeholder="一份大约一个拳头" />
+              <p class="error" id="err-veggies" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="sugarG">添加糖</label>
+                <span class="unit">克</span>
+              </div>
+              <input id="sugarG" name="sugarG" type="number" inputmode="decimal" min="0" max="300" step="5" placeholder="甜饮、甜点、糖" />
+              <p class="error" id="err-sugarG" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="sunMin">户外日照</label>
+                <span class="unit">分钟</span>
+              </div>
+              <input id="sunMin" name="sunMin" type="number" inputmode="numeric" min="0" max="300" step="5" placeholder="白天出门的时间" />
+              <p class="error" id="err-sunMin" hidden></p>
+            </div>
+            <div class="field">
+              <div class="field-top">
+                <label for="phoneMin">睡前刷手机</label>
+                <span class="unit">分钟</span>
+              </div>
+              <input id="phoneMin" name="phoneMin" type="number" inputmode="numeric" min="0" max="360" step="5" placeholder="上床前的屏幕时间" />
+              <p class="error" id="err-phoneMin" hidden></p>
+            </div>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="calc-btn">计算今日苹果指数</button>
+          <button type="button" class="ghost" id="demo-btn">填入示范的一天</button>
+          <button type="button" class="textish" id="clear-btn">清空</button>
+          <p class="fill-note" id="fill-note">必填还差 7 项</p>
+        </div>
+      </form>
+
+      <aside class="card result" id="result" aria-live="polite">
+        <p class="result-kicker" id="result-kicker">今天的苹果</p>
+        <div class="result-hero">
+          <div class="apple-stage" id="apple-stage">
+            <svg id="apple-svg" viewBox="0 0 160 168" aria-hidden="true">
+              <ellipse cx="80" cy="150" rx="36" ry="6" fill="rgba(70,40,20,0.08)" />
+              <path id="apple-leaf" d="M86 34c2 14-10 24-22 28 12 2 24-8 22-28z" />
+              <path id="apple-stem" d="M84 40c2-10 8-16 16-18" fill="none" stroke="#6a4a32" stroke-width="3" stroke-linecap="round" />
+              <path id="apple-body" d="M80 46c-18 0-34 12-40 30-8 22-4 48 14 62 10 8 22 10 32 6 12 6 28 2 38-10 16-16 22-42 12-64-8-16-28-24-56-24z" />
+              <path id="apple-gloss" d="M62 72c8 6 12 20 8 36" fill="none" stroke="#fff8f2" stroke-width="5" stroke-linecap="round" />
+            </svg>
+            <img id="apple-photo" alt="" hidden />
+          </div>
+          <div class="score-block">
+            <p class="index-line">
+              <span id="index-num">—</span><small>/10</small>
+            </p>
+            <p class="level-name" id="level-name">填完必填项，算出今天的苹果</p>
+            <p class="level-line" id="level-line">必填是饮水、睡眠、练或休息、蛋白质、步数、中高强度、站立。手环和饮食空着也能算。</p>
+            <p class="fine-score" id="fine-score"></p>
+          </div>
+        </div>
+
+        <div class="rings" id="rings" hidden>
+          <svg viewBox="0 0 120 120" class="ring-svg" aria-hidden="true">
+            <g transform="rotate(-90 60 60)">
+              <circle class="track" cx="60" cy="60" r="52" />
+              <circle class="prog move" id="ring-move" cx="60" cy="60" r="52" />
+              <circle class="track" cx="60" cy="60" r="40" />
+              <circle class="prog exercise" id="ring-exercise" cx="60" cy="60" r="40" />
+              <circle class="track" cx="60" cy="60" r="28" />
+              <circle class="prog stand" id="ring-stand" cx="60" cy="60" r="28" />
+            </g>
+          </svg>
+          <ul class="ring-legend">
+            <li><i class="dot move"></i>移动 <b id="ring-move-n">0</b></li>
+            <li><i class="dot exercise"></i>锻炼 <b id="ring-exercise-n">0</b></li>
+            <li><i class="dot stand"></i>站立 <b id="ring-stand-n">0</b></li>
+          </ul>
+        </div>
+
+        <ul class="meters" id="meters" hidden></ul>
+        <div class="cautions" id="cautions" hidden></div>
+        <div class="tips" id="tips" hidden></div>
+        <p class="compare" id="compare" hidden></p>
+
+        <div class="result-actions" id="result-actions" hidden>
+          <button type="button" class="primary" id="save-btn">记下今天</button>
+          <button type="button" class="ghost" id="copy-btn">复制结果</button>
+        </div>
+        <p class="save-note" id="save-note" hidden></p>
+        <div class="history" id="history" hidden>
+          <p class="history-label">近 7 天</p>
+          <ol id="history-list"></ol>
+        </div>
+      </aside>
+    </div>
+
+    <details class="card note">
+      <summary>指数怎么算</summary>
+      <div class="note-body">
+        <p>六个维度各自打 0 到 100 分，再按权重合成苹果分。苹果分换成 0 到 10 的指数。选填项空着时，它的权重分给已经填写的项，所以没戴手环也能算出 10。</p>
+        <table>
+          <thead>
+            <tr><th>维度</th><th>权重</th><th>满分大概落在</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>大水</td><td>16%</td><td>1800–2800 毫升，或体重 ×30 到 ×40 毫升</td></tr>
+            <tr><td>大睡</td><td>20%</td><td>7.5–9 小时；深睡约 70–130 分钟；清醒 0–1 次</td></tr>
+            <tr><td>薄肌</td><td>18%</td><td>力量 25–55 分钟，或休息日；蛋白质约 1.2–2.0 克/公斤</td></tr>
+            <tr><td>活力</td><td>18%</td><td>10000–14000 步，中高强度 30–60 分钟，站立 12 小时</td></tr>
+            <tr><td>体征</td><td>14%</td><td>静息心率 50–62，血氧 98–100，压力 1–25</td></tr>
+            <tr><td>节律</td><td>14%</td><td>蔬菜 4 份以上，添加糖不超过 20 克，日照 15–40 分钟，睡前屏幕不超过 10 分钟</td></tr>
+          </tbody>
+        </table>
+        <p>93 分及以上是 10，87 是 9，80 是 8，73 是 7，65 是 6，56 是 5。再往下每大约 10 分降一颗苹果。指数看苹果，苹果分看同一颗里面的进步。休息日其他项都满分时，最高是 9；力量练进 25–55 分钟，才够到 10。血氧低于 95%，或静息心率低于 45、达到 100，指数最高停在 6。</p>
+        <p>手环如果给了睡眠评分，它占大睡的 38%，其余仍由时长、深睡和清醒次数决定。</p>
+      </div>
+    </details>
+
+    <details class="card note">
+      <summary>这些理论在说什么</summary>
+      <div class="note-body">
+        <p><strong>大水理论</strong>流行的说法是多喝水就会变好，甚至变瘦。有用的部分是很多人确实喝少了。它没有“越多越好”这一条，短时间灌很多白水反而可能出事。所以满分是一个区间，不是一个没有顶的数字。</p>
+        <p><strong>大睡理论</strong>把觉放在皮肤、情绪、食欲和恢复的前面。成年人通常 7 到 9 小时就够，固定时间和少醒，往往比硬把时长拉到下午更有用。</p>
+        <p><strong>薄肌理论</strong>要的是纤细、有线条，不是练成很大的块。做法通常是力量训练、够用的蛋白质，再加上走路，而不是只做有氧或只节食。正常的力量训练很难把人练成“很壮”。休息日照样算进步，因为肌肉是在恢复里留下来的。</p>
+        <p>页面还参考了一万步、Apple Watch 活力环，以及小米手环能读到的心率、血氧、压力、深睡和活动消耗。这些是日常目标，不是诊断。</p>
+      </div>
+    </details>
+
+    <footer>
+      <p>数字只存在这台设备的浏览器里，不会上传。</p>
+      <p>这是生活自评，不是诊断，也不能代替医生、营养师或教练。血氧反复低于 95%，或心率、睡眠明显异常，请去看医生。</p>
+    </footer>
+  </div>
+
+  <div class="dock" id="dock">
+    <span id="dock-apple" aria-hidden="true"></span>
+    <p id="dock-text">先填必填项</p>
+    <button type="button" id="dock-btn">去计算</button>
+  </div>
+
+  <script src="score.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
