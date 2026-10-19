@@ -191,10 +191,20 @@
   }
 
   var photoToken = 0;
+  function animateAppleStage() {
+    var stage = document.querySelector(".apple-stage");
+    if (!stage || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    stage.classList.remove("is-updating");
+    void stage.offsetWidth;
+    stage.classList.add("is-updating");
+    window.setTimeout(function () { stage.classList.remove("is-updating"); }, 820);
+  }
+
   function loadApplePhoto(index) {
     var img = $("apple-photo");
     var svg = $("apple-svg");
     var token = ++photoToken;
+    animateAppleStage();
     var base = new URL("images/apple-" + index + ".b64", document.baseURI);
     img.alt = "苹果指数 " + index + " 对应的苹果图片";
     img.hidden = true;
@@ -390,34 +400,6 @@
     }
   }
 
-  function fillDemo() {
-    var demo = {
-      weight: "60",
-      waterMl: "2200",
-      sleepHours: "8",
-      deepMin: "90",
-      awakenings: "1",
-      sleepScore: "86",
-      strengthMin: "40",
-      proteinG: "100",
-      steps: "11000",
-      exerciseMin: "35",
-      standHours: "12",
-      kcal: "420",
-      restingHr: "58",
-      avgHr: "72",
-      spo2: "98",
-      stress: "28",
-      veggies: "5",
-      sugarG: "12",
-      sunMin: "25",
-      phoneMin: "8"
-    };
-    Object.keys(demo).forEach(function (id) { $(id).value = demo[id]; });
-    setMode("train");
-    updateHints();
-    updateFillNote();
-  }
 
   function clearForm() {
     Object.keys(RANGES).forEach(function (id) { $(id).value = ""; });
@@ -532,10 +514,4 @@
   updateHints();
   updateFillNote();
   syncChips();
-  renderHistory();
-
-  if (new URLSearchParams(location.search).get("demo") === "1") {
-    fillDemo();
-    calculateAndRender(false);
-  }
-})();
+  renderHistory();\n})();
