@@ -511,4 +511,5 @@
   updateHints();
   updateFillNote();
   syncChips();
-  renderHistory();\n})();
+  renderHistory();
+})();
