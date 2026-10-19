@@ -85,7 +85,7 @@ input.bad { border-color: var(--apple); background: #fff8f7; }
 .apple-stage svg { width: 82%; height: 82%; }
 .apple-stage img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .index-line { margin: 0; font-family: var(--serif); font-size: clamp(58px, 7vw, 80px); line-height: .9; letter-spacing: -.065em; font-weight: 650; }
-.index-line .is-placeholder { display: inline-block; font-family: Arial, sans-serif; font-size: 38px; font-weight: 300; letter-spacing: 0; line-height: 1; transform: translateY(-5px); }
+.index-line .is-placeholder { display: inline-block; width: 18px; font-family: Arial, sans-serif !important; font-size: 24px !important; font-weight: 300 !important; letter-spacing: 0 !important; line-height: 1; vertical-align: 0.2em; transform: none; }
 .index-line small { font-size: 20px; color: var(--muted); letter-spacing: -.02em; font-weight: 500; }
 .level-name { margin: 10px 0 0; font-family: var(--serif); font-size: 21px; font-weight: 650; letter-spacing: -.035em; }
 .level-line, .fine-score, .compare { margin: 7px 0 0; color: #636369; font-size: 13px; line-height: 1.55; }
