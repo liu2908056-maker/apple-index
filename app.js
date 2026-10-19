@@ -259,6 +259,7 @@
   }
   function renderEmpty(message, detail, showErrorApple) {
     $("index-num").textContent = "-";
+    $("index-num").classList.add("is-placeholder");
     $("level-name").textContent = message;
     $("level-line").textContent = detail || "";
     $("fine-score").textContent = "";
@@ -276,6 +277,7 @@
 
   function renderResult(result) {
     lastResult = result;
+    $("index-num").classList.remove("is-placeholder");
     $("index-num").textContent = String(result.index);
     $("level-name").textContent = result.level.name;
     $("level-line").textContent = result.level.line;
