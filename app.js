@@ -218,7 +218,7 @@
       })
       .then(function (encoded) {
         if (token !== photoToken) return;
-        var clean = encoded.replace(/^data:image\\/[a-zA-Z0-9.+-]+;base64,/, "").replace(/\\s/g, "");
+        var clean = encoded.replace(/^data:image\/[a-zA-Z0-9.+-]+;base64,/, "").replace(/\s/g, "");
         if (!clean || !/^[A-Za-z0-9+/]+={0,2}$/.test(clean)) throw new Error("Invalid encoded image");
         img.onload = function () {
           if (token !== photoToken) return;
