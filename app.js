@@ -284,7 +284,7 @@
     var fine = "苹果分 <b>" + result.score.toFixed(1) + "</b>";
     fine += result.capped
       ? " · 体征读数把指数停在 6，苹果分仍是原来的生活分"
-      : " · 指数看苹果，分数看同一颗里面的进步";
+      : "";
     $("fine-score").innerHTML = fine;
     paintApple(result.index);
     loadApplePhoto(result.index);
