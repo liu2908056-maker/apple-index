@@ -205,7 +205,7 @@
     var svg = $("apple-svg");
     var token = ++photoToken;
     animateAppleStage();
-    var base = new URL(errorApple ? "images/apple-error.b64" : "images/apple-" + index + ".b64", document.baseURI);
+    var base = new URL(errorApple ? "images/apple-error.jpg.jpg" : "images/apple-" + index + ".b64", document.baseURI);
     img.alt = errorApple ? "错误苹果：数据未填完整或存在错误" : "苹果指数 " + index + " 对应的苹果图片";
     img.hidden = true;
     svg.hidden = false;
